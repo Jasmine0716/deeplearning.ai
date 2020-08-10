@@ -1,4 +1,4 @@
-# 改善深层神经网络  
+改善深层神经网络  
 
 ## 神经网络的参数调整  
 
@@ -74,10 +74,10 @@
                     * 小一点->lambd大一点，加强防止过拟合  
                     * 大一点->lambd小一点，减弱防止过拟合（p=1，没有用dropout）  
                     * p可以变化，根据每一层的具体情况，如没有过拟合危险->p可以大一点；如果参数较多->p可以小一点  
-                        
+                      
                         * 如：
                         
-                            ![1597016579056](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597016579056.png)
+                            ![](.\img\神经网络.png)
             * 方法  
                 * inverted dropout反向随机失活  
                     * 生成随机矩阵(n,m),其中n为此层的神经元的数量，m为样本数量  
@@ -99,11 +99,11 @@
                 * 角度调整等  
     * early stopping  
         * 原理：不考虑正则化时，随着训练集loss在迭代中逐渐减小时，测试集的loss在迭代中先减小后增大  
-            
-            ![1597016681651](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597016681651.png)
+          
+            ![1597016681651](./img/learning.png)
         * 将中间的地点作为最优点停止迭代
         * 优点  
-            
+          
             * 不用调整lambd，不引入超参数  
 
 ## 超参数的调试  
@@ -128,19 +128,19 @@
 
 * 基本思想：将logistc回归分类的分为两类拓展为分为多个类别，输出每个类别的概率，C=2时和logistic等价  
 * 计算  
-    
+  
     * 先计算e的幂值，再归一化计算每个概率（总概率为1）  
 * 直观感受  
     * 对于没有隐藏层的网络  
         * softmax分类器，将区域分为多个类，每个类之间分界面呈现线性  
         * logistic分类器，将区域进行线性划分，分为两个类  
 * hardmax  
-    
+  
     * 在logistc分类的基础上将输出变为多个，然后取值最大的类为1，其他为0  
 * loss function  
     * 理解：梯度下降等效于使正确类别的概率最大化  
     
-      ![1597016752675](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597016752675.png =100x100)
+      ![loss-w10](./img/loss.png){:height=“50px” width=“100px”}
 
 ## 权重  
 
@@ -154,18 +154,18 @@
 
 * 梯度  
     * 梯度爆炸/消失  
-        
+      
         * 理解：比如将网络简单化，变为线性传递后，如果所有的w都大于1->将会导致指数型爆炸增长；当所有的w都小于1->将会导致指数型减小  
     * 梯度验证  
         * 用数值计算的结果和理论计算的梯度结果进行比对  
             * 数值计算  
-                
+              
                 * 使用双边误差  
                 
-                  ![1597016871872](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597016871872.png)
+                  ![数值求导](./img/数值求导.png)
             * 对比  
-                
-                ![1597016843064](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597016843064.png)
+              
+                ![compare](./img/compare.png)
         * 注意事项  
             * 训练是不要进行梯度验证（速度慢），进行单独的梯度验证  
             * 判断是否正确  
@@ -204,7 +204,7 @@
         * 先减去均值，再计算方差，除以标准差  
     * 意义  
         * 更容易、更快优化减小损失  
-            * ![1597017203445](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597017203445.png)
+            * ![normalize](./img/norm.png)
             * 当均值和方差相差较大时，J与w的函数呈现狭长形  
             * <mark>没看懂原理</mark>  
 * 动量梯度下降法Momentum  
@@ -222,7 +222,7 @@
             * 原因：单纯使用指数加权平均时，如果beta选择较大，而v0定义为0，则在开始的几个值都会存在过小的情况  
             * 改进计算方法：在每一次计算完v(t)后，修正为v(t)/(1-beta^t)<mark>(可以理解为除去了v0的影响，只使用了其他值的加权平均-1-beta^t即是其他值的权重之和)</mark>  
     * 方法实现  
-        * ![1597017162711](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597017162711.png)
+        * ![momentum](./img/momentum.png)
         * 或者取消1-beta，变为v(t)= beta*v(t-1)+dW/b  
             * <mark>为什么吴恩达老师说这种方法在改变beta时也要调整a？两种更新公式有什么不同？</mark>  
     * 意义  
@@ -233,16 +233,16 @@
     * <mark>一般不使用偏差修正</mark>  
         * 为什么？？  
 * RMSprop  
-    * ![1597017113672](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597017113672.png)
+    * ![RMSprop](./img/RMSprop.png)
         * <mark>注意:为了防止分母过小/为0，一般在分母（不是根号内部）加一个较小的常量（一般选择10^-8）</mark>  
     * 基本思想：为了防止竖直方向摆动速度过大，水平反向移动速度过小，在速度对应的梯度下除以一个可以体现其大小的量来防止过大/过小。  
     * 学习率可以稍微取大一点的值  
 * Adam  
-    * ![1597017042942](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597017042942.png)
-        
+    * ![Adam](./img/Adam.png)
+      
         * 参数选择  
         
-          ![1597017068447](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597017068447.png)
+          ![hyparameters](./img/hyparameters.png)
     * 基本思想：结合momentum算法和RMSprop算法（RMSprop可以看作是momentum的修正）  
 * 学习率衰减  
     * 基本思想：由于使用mini-batch训练，梯度并不只是指向最低点的，在不断学习中，靠近最值点后为了防止由于方向的不准确带来的误差过大，将减小学习率来改善  
@@ -260,9 +260,9 @@
 * Batch norm  
     * 如何进行batch norm  
         * 在每一个mini-batch训练时，每一层计算激活值前进行batch norm，针对相应mini-batch的对象计算均值和方差  
-            * ![1597017009135](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597017009135.png)
+            * ![batch-norm](./img/batch-norm.png)
         * 由于可能需要其他的分布，所以进行简单变换（比如sigmoid函数中不希望输入值只分布在01之间）  
-            * ![1597016979339](C:\Users\Jasmine\AppData\Roaming\Typora\typora-user-images\1597016979339.png)
+            * ![change](./img/change.png)
             * 对于每一层的两个参数选择可以不同，但是不同mini-batch的相同层参数需要相同  
     * 细节  
         * 由于减去了均值，所以b没有了意义，可以省略或设置为0  
