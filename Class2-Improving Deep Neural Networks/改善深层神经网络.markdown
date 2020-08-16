@@ -1,4 +1,4 @@
-改善深层神经网络  
+# 改善深层神经网络  
 
 ## 神经网络的参数调整  
 
@@ -140,7 +140,7 @@
 * loss function  
     * 理解：梯度下降等效于使正确类别的概率最大化  
     
-      ![loss-w10](./img/loss.png){:height=“50px” width=“100px”}
+      ![loss-w10](./img/loss.png)
 
 ## 权重  
 
